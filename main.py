@@ -196,8 +196,8 @@ def add_all_objects():
 def main():
     db_session.global_init('db/culture.db')
     port = int(os.environ.get("PORT", 5000))
-    app.run(port=5000, host='0.0.0.0')
-    # serve(app, port=port, host='0.0.0.0')
+    # app.run(port=5000, host='0.0.0.0')
+    serve(app, port=port, host='0.0.0.0')
     # add_all_objects()
 
 
