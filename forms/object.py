@@ -10,14 +10,15 @@ class AddObject(FlaskForm):
     region = StringField('Регион', validators=[DataRequired()])
     full_address = StringField('Полный адрес')
     category = RadioField('Выберите категорию', choices=[
-        ('1', 'Местного (муниципального) значения'),
-        ('2', 'Федерального значения'),
-        ('3', 'Регионального значения')
+        ('Местного (муниципального) значения', 'Местного (муниципального) значения'),
+        ('Федерального значения', 'Федерального значения'),
+        ('Регионального значения', 'Регионального значения')
     ], validators=[DataRequired()])
     kind = RadioField('Вид объекта', choices=[
-        ('1', 'Ансамбль'),
-        ('2', 'Памятник')
+        ('Ансамбль', 'Ансамбль'),
+        ('Памятник', 'Памятник')
     ], validators=[DataRequired()])
-    unesco = BooleanField('Принадлежность к Юнеско', validators=[DataRequired()])
-    is_valuable = BooleanField('Особо ценный объект', validators=[DataRequired()])
+    unesco = BooleanField('Принадлежность к Юнеско')
+    is_value = BooleanField('Особо ценный объект')
+    coords = StringField('Координаты')
     submit = SubmitField('Добавить объект')
