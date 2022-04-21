@@ -130,7 +130,7 @@ def show_objects():
     return render_template('show_objects.html', obj=obj)
 
 
-@app.route('/object/<int:object_id>', methods=['GET', 'POST'])
+@app.route('/<int:object_id>', methods=['GET', 'POST'])
 def get_object(object_id):
     db_sess = db_session.create_session()
     obj = db_sess.query(Object).get(object_id)
