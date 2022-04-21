@@ -148,6 +148,9 @@ def get_object(object_id):
         db_sess.commit()
         return redirect(f'/object/{object_id}')
     if obj:
+        coords = obj.coords
+        if coords:
+            get_photo(coords[1:-1])
         return render_template('object.html', obj=obj, comments=comments, form=form)
     return jsonify({'error': 'object not found'})
 
@@ -222,7 +225,7 @@ def get_photo(sel):
             response.json()["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["Point"]["pos"].split()
 
     map_request = \
-        f"http://static-maps.yandex.ru/1.x/?ll={toponym_coodrinates[0]},{toponym_coodrinates[1]}&spn=0.001,0.001&l=map"
+        f"http://static-maps.yandex.ru/1.x/?ll={toponym_coodrinates[0]},{toponym_coodrinates[1]}&spn=0.002,0.002&l=map"
     response = requests.get(map_request)
 
     if not response:
@@ -231,7 +234,7 @@ def get_photo(sel):
         print("Http статус:", response.status_code, "(", response.reason, ")")
         sys.exit(1)
 
-    map_file = "photo/map.png"
+    map_file = "static/photo/map.png"
     with open(map_file, "wb") as file:
         file.write(response.content)
 
