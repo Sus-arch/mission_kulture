@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
 {% block content %}
     {% for item in obj %}
-    <div class="shadow-lg p-3 mb-5 bg-body rounded">
+    <div class="shadow-lg p-3 mb-5 bg-body rounded" style="margin-left: 200px;font-family: Comic Sans MS;">
         <h3>{{ item.name }}</h3>
         <p>{{ item.about }}</p>
         <a href="/{{ item.id }}">Ссылка на памятник</a>
