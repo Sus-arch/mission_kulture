@@ -8,6 +8,7 @@ from forms.object import AddObject
 from data.objects import Object
 from data.comments import Comment
 from forms.comment import AddCommentForm
+from forms.search import SearchForm
 from waitress import serve
 import os
 import json
@@ -127,7 +128,8 @@ def show_objects():
     db_sess = db_session.create_session()
     objects = db_sess.query(Object).all()
     obj = [objects[randint(1, len(objects))] for _ in range(10)]
-    return render_template('show_objects.html', obj=obj)
+    form = SearchForm()
+    return render_template('show_objects.html', obj=obj, form=form)
 
 
 @app.route('/<int:object_id>', methods=['GET', 'POST'])
@@ -150,9 +152,7 @@ def get_object(object_id):
     return jsonify({'error': 'object not found'})
 
 
-@app.route('/search')
-def search():
-    pass
+
 
 
 def add_all_objects():
