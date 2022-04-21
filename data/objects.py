@@ -17,4 +17,5 @@ class Object(SqlAlchemyBase, SerializerMixin):
     category = sqlalchemy.Column(sqlalchemy.String)
     kind = sqlalchemy.Column(sqlalchemy.String)
     unesco = sqlalchemy.Column(sqlalchemy.BOOLEAN)
-    is_valuable = sqlalchemy.Column(sqlalchemy.BOOLEAN)
+    is_value = sqlalchemy.Column(sqlalchemy.BOOLEAN)
+    coords = sqlalchemy.Column(sqlalchemy.String)

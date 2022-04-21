@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Добавление объекта</h1>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.name.label }}<br>
+        {{ form.name(class="form-control") }}<br>
+        {% for error in form.name.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.about.label }}<br>
+        {{ form.about(class="form-control") }}<br>
+        {% for error in form.about.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.reester_number.label }}<br>
+        {{ form.reester_number(class="form-control") }}<br>
+        {% for error in form.reester_number.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.region.label }}<br>
+        {{ form.region(class="form-control") }}<br>
+        {% for error in form.region.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.full_address.label }}<br>
+        {{ form.full_address(class="form-control") }}<br>
+        {% for error in form.full_address.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.coords.label }}<br>
+        {{ form.coords(class="form-control") }}<br>
+        {% for error in form.coords.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {% for subfield in form.category %}
+        <tr>
+            <td>{{ subfield }}</td>
+            <td>{{ subfield.label }}</td>
+        </tr>
+        {% endfor %}
+    </p>
+    <br>
+    <p>
+        {% for subfield in form.kind %}
+        <tr>
+            <td>{{ subfield }}</td>
+            <td>{{ subfield.label }}</td>
+        </tr>
+        {% endfor %}
+    </p>
+    <br>
+    <p>{{ form.unesco() }} {{ form.unesco.label }}</p>
+    <p>{{ form.is_value() }} {{ form.is_value.label }}</p>
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    {{message}}
+</form>
+{% endblock %}
