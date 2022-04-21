@@ -4,7 +4,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required
 from data import db_session
 from data.users import User
 from forms.user import RegisterForm, LoginForm
-from forms.object import AddObject
+from forms.object import AddObject, FindObjectForm
 from data.objects import Object
 from data.comments import Comment
 from forms.comment import AddCommentForm
@@ -137,7 +137,7 @@ def get_object(object_id):
     db_sess = db_session.create_session()
     obj = db_sess.query(Object).get(object_id)
     form = AddCommentForm()
-    comments = db_sess.query(Comment).filter(Comment.obj_id == object_id)
+    comments = db_sess.query(Comment).filter(Comment.obj_id == object_id).all()
     if form.validate_on_submit():
         comment = Comment(
             text=form.text.data,
@@ -146,7 +146,7 @@ def get_object(object_id):
         )
         db_sess.add(comment)
         db_sess.commit()
-        return redirect(f'/object/{object_id}')
+        return redirect(f'/{object_id}')
     if obj:
         coords = obj.coords
         if coords:
@@ -155,8 +155,17 @@ def get_object(object_id):
     return jsonify({'error': 'object not found'})
 
 
-
-
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    form = FindObjectForm()
+    db_sess = db_session.create_session()
+    if form.validate_on_submit():
+        obj = db_sess.query(Object).filter(form.name.data == Object.name).first()
+        if not obj:
+            return render_template('search.html', form=form, message='Ничего не найдено')
+        return redirect(f'/{obj.id}')
+    return render_template('search.html', form=form)
+  
 
 def add_all_objects():
     db_sess = db_session.create_session()

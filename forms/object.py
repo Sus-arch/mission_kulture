@@ -22,3 +22,8 @@ class AddObject(FlaskForm):
     is_value = BooleanField('Особо ценный объект')
     coords = StringField('Координаты')
     submit = SubmitField('Добавить объект')
+
+
+class FindObjectForm(FlaskForm):
+    name = StringField('Название', validators=[DataRequired()])
+    submit = SubmitField('Поиск')
