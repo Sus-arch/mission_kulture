@@ -9,6 +9,7 @@ from data.objects import Object
 from waitress import serve
 import os
 import json
+from random import randint
 
 
 app = Flask(__name__)
@@ -112,6 +113,28 @@ def add_object():
     return render_template('add_object.html', form=form)
 
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@app.route('/show')
+def show_objects():
+    db_sess = db_session.create_session()
+    objects = db_sess.query(Object).all()
+    obj = [objects[randint(1, len(objects))] for _ in range(10)]
+    return render_template('show_objects.html', obj=obj)
+
+
+@app.route('/object/<int:object_id>', methods=['GET', 'POST'])
+def get_object(object_id):
+    db_sess = db_session.create_session()
+    obj = db_sess.query(Object).get(object_id)
+    if obj:
+        return render_template('object.html', obj=obj)
+    return jsonify({'error': 'object not found'})
+
+
 def add_all_objects():
     db_sess = db_session.create_session()
     os.chdir('obj')
@@ -142,6 +165,10 @@ def add_all_objects():
                     coords = j['data']['general']['address']['mapPosition']['coordinates']
                 except:
                     coords = ''
+                try:
+                    photo = j['data']['general']['photo']['url']
+                except:
+                    photo = ''
                 if unesco == 'нет':
                     unesco = 0
                 elif unesco == 'да':
@@ -160,11 +187,10 @@ def add_all_objects():
                              unesco=unesco,
                              is_value=is_value,
                              full_address=full_address,
-                             coords=str(coords))
+                             coords=str(coords),
+                             photo=photo)
                 db_sess.add(obj)
                 db_sess.commit()
-
-
 
 
 def main():
@@ -172,7 +198,7 @@ def main():
     port = int(os.environ.get("PORT", 5000))
     app.run(port=5000, host='0.0.0.0')
     # serve(app, port=port, host='0.0.0.0')
-    add_all_objects()
+    # add_all_objects()
 
 
 if __name__ == '__main__':

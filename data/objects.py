@@ -19,3 +19,4 @@ class Object(SqlAlchemyBase, SerializerMixin):
     unesco = sqlalchemy.Column(sqlalchemy.BOOLEAN)
     is_value = sqlalchemy.Column(sqlalchemy.BOOLEAN)
     coords = sqlalchemy.Column(sqlalchemy.String)
+    photo = sqlalchemy.Column(sqlalchemy.String)
