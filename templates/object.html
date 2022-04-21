@@ -34,16 +34,12 @@
         <p hidden>{{ form.obj_id(value=obj.id) }}</p>
         </form>
     {% endif %}
-        {% for com in comments[::-1] %}
-        <div>
-          <div class="collapse collapse-horizontal" id="collapseWidthExample{{ obj.id }}" >
+        {% for com in comments %}
             <div class="card card-body">
               <p>
                   {{ com.text }}
               </p>
             </div>
-          </div>
-        </div>
         <br>
         {% endfor %}
     </div>

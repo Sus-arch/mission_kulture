@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+<link href="static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="static/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
+{% block content %}
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.name.label }}<br>
+        {{ form.name(class="form-control") }}<br>
+        {% for error in form.name.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+</form>
+{% endblock %}
