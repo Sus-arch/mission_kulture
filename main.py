@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from data.users import User
 import os
 
 
