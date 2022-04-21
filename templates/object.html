@@ -16,5 +16,33 @@
         {% if obj.coords %}
             <img src="/static/img/{{ obj.id }}.png">
         {% endif %}
+        {% if current_user.is_authenticated %}
+        <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.text.label }}<br>
+            {{ form.text(class="form-control") }}<br>
+            {% for error in form.text.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <p hidden>{{ form.obj_id(value=obj.id) }}</p>
+        </form>
+    {% endif %}
+        {% for com in comments[::-1] %}
+        <div>
+          <div class="collapse collapse-horizontal" id="collapseWidthExample{{ obj.id }}" >
+            <div class="card card-body">
+              <p>
+                  {{ com.text }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <br>
+        {% endfor %}
     </div>
 {% endblock %}
