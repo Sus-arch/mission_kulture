@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for item in obj %}
+    <div class="shadow-lg p-3 mb-5 bg-body rounded">
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.about }}</p>
+        <a href="/object/{{ item.id }}">Ссылка на памятник</a>
+    </div>
+    <br>
+    {% endfor %}
+{% endblock %}
