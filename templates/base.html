@@ -31,12 +31,16 @@
 <!-- header -->
 	<div class="header">
 		<div class="logo">
-			<a href="index.html">Культура <span>России</span></a>
+			<a href="/">Культура <span>России</span></a>
 		</div>
 		<div class="logo-right">
 			<ul>
-				<li><a href="">Войти</a></li>|
-				<li><a href="">Зарегестрироваться</a></li>
+				{% if current_user.is_authenticated %}
+				<li><p href="/logout">{{ current_user.nick }}</p></li>
+				{% else %}
+				<li><a href="/login">Войти</a></li>|
+				<li><a href="/register">Зарегестрироваться</a></li>
+				{% endif %}
 			</ul>
 		</div>
 		<div class="clearfix"> </div>
@@ -58,11 +62,11 @@
 				<div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
 					<nav class="cl-effect-1">
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="index.html">Home</a></li>
-							<li><a href="about.html">About</a></li>
-							<li><a href="services.html">Services</a></li>
-							<li><a href="gallery.html">Photo Gallery</a></li>
-							<li><a href="contact.html">Contact Us</a></li>
+							<li class="active"><a href="/">Home</a></li>
+							<li><a href="">About</a></li>
+							<li><a href="">Services</a></li>
+							<li><a href="">Photo Gallery</a></li>
+							<li><a href="">Contact Us</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -78,11 +82,11 @@
 <!--footer-->
 	<div class="footer">
 		<div class="col-md-3 footer-grids">
-			<h4><a href="index.html">Информация</a></h4>
+			<h4><a href="/">Информация</a></h4>
 			<p><a href="mail@mail.com">mail@mail.com</a></p>
 			<p>89009175397</p>
 			<ul class="social-icons">
-				<li><a href="#" class="vk"></a></li>
+				<li><a href="/" class="vk"></a></li>
 			</ul>
 		</div>
 	</div>
