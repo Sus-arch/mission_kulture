@@ -1,6 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <img src="static/img/img.png" alt="здесь должна была быть картинка,
-                     но не нашлась">
+    <div>
+        <h1>{{ obj.name }} ({{ obj.category }}, {{ obj.kind }})</h1>
+        <h2>{{ obj.about }}</h2>
+        <p>Номер в реестре - {{ obj.reester_number }}</p>
+        <p>Регион - {{ obj.region}}</p>
+        <p>Адрес - {{ obj.full_address }}</p>
+        {% if obj.unesco %}
+        <p>Объект находиться под охраной Юнеско</p>
+        {% endif %}
+        {% if obj.is_value %}
+        <p>Особо ценный объект</p>
+        {% endif %}
+        {% if obj.coords %}
+            <img src="/static/img/{{ obj.id }}.png">
+        {% endif %}
+    </div>
 {% endblock %}
