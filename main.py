@@ -1,8 +1,14 @@
-from flask import Flask
+from flask import Flask, render_template
 import os
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'NJwadok12LMKF3KMlmcd232v_key'
+
+
+@app.route('/')
+def main_page():
+    pass
 
 
 def main():
