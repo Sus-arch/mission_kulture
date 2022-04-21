@@ -6,6 +6,8 @@ from data.users import User
 from forms.user import RegisterForm, LoginForm
 from forms.object import AddObject
 from data.objects import Object
+from data.comments import Comment
+from forms.comment import AddCommentForm
 from waitress import serve
 import os
 import json
@@ -130,9 +132,25 @@ def show_objects():
 def get_object(object_id):
     db_sess = db_session.create_session()
     obj = db_sess.query(Object).get(object_id)
+    form = AddCommentForm()
+    comments = db_sess.query(Comment).filter(Comment.obj_id == object_id)
+    if form.validate_on_submit():
+        comment = Comment(
+            text=form.text.data,
+            obj_id=form.obj_id.data,
+            creater_id=flask_login.current_user.id
+        )
+        db_sess.add(comment)
+        db_sess.commit()
+        return redirect(f'/object/{object_id}')
     if obj:
-        return render_template('object.html', obj=obj)
+        return render_template('object.html', obj=obj, comments=comments, form=form)
     return jsonify({'error': 'object not found'})
+
+
+@app.route('/search')
+def search():
+    pass
 
 
 def add_all_objects():
@@ -196,8 +214,8 @@ def add_all_objects():
 def main():
     db_session.global_init('db/culture.db')
     port = int(os.environ.get("PORT", 5000))
-    # app.run(port=5000, host='0.0.0.0')
-    serve(app, port=port, host='0.0.0.0')
+    app.run(port=5000, host='0.0.0.0')
+    # serve(app, port=port, host='0.0.0.0')
     # add_all_objects()
 
 
