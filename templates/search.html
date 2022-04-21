@@ -9,11 +9,13 @@
         {{ form.name.label }}<br>
         {{ form.name(class="form-control") }}<br>
         {% for error in form.name.errors %}
-            <p class="alert alert-danger" role="alert">
+            <p>
                 {{ error }}
             </p>
         {% endfor %}
     </p>
+    <br>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    <br>
 </form>
 {% endblock %}
