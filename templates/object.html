@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-
+<link href="static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="static/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
 {% block content %}
     <div>
         <h1>{{ obj.name }} ({{ obj.category }}, {{ obj.kind }})</h1>
@@ -14,7 +16,7 @@
         <p>Особо ценный объект</p>
         {% endif %}
         {% if obj.coords %}
-            <img src="/static/img/{{ obj.id }}.png">
+            <img src="static/photo/map.png">
         {% endif %}
         {% if current_user.is_authenticated %}
         <form action="" method="post">
