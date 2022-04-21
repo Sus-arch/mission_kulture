@@ -13,7 +13,6 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True, unique=True)
     email = sqlalchemy.Column(sqlalchemy.String, unique=True)
-    name = sqlalchemy.Column(sqlalchemy.String)
     nick = sqlalchemy.Column(sqlalchemy.String, unique=True)
     is_admin = sqlalchemy.Column(sqlalchemy.BOOLEAN)
     hashed_password = sqlalchemy.Column(sqlalchemy.String)
