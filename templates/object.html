@@ -15,6 +15,11 @@
         {% if obj.is_value %}
         <p>Особо ценный объект</p>
         {% endif %}
+        {% if obj.photo %}
+            <img src="static/photo/object.png" alt="здесь должна была быть картинка,
+                     но не нашлась">
+        {% endif %}
+        <br>
         {% if obj.coords %}
             <img src="static/photo/map.png">
         {% endif %}
