@@ -15,6 +15,7 @@ import json
 from random import randint
 import sys
 import requests
+from PIL import Image
 
 
 app = Flask(__name__)
@@ -151,6 +152,19 @@ def get_object(object_id):
         coords = obj.coords
         if coords:
             get_photo(coords[1:-1])
+        if obj.photo:
+            try:
+                res = requests.get(obj.photo, verify=False).content
+                with open('static/photo/obj.png', 'wb') as file:
+                    file.write(res)
+                im = Image.open("static/photo/obj.png")
+                out = im.resize((512, 512))
+                out.save("static/photo/object.png")
+            except:
+                if os.path.isfile('static/photo/object.png'):
+                    os.remove('static/photo/object.png')
+                if os.path.isfile('static/photo/obj.png'):
+                    os.remove('static/photo/obj.png')
         return render_template('object.html', obj=obj, comments=comments, form=form)
     return jsonify({'error': 'object not found'})
 
@@ -234,7 +248,7 @@ def get_photo(sel):
             response.json()["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["Point"]["pos"].split()
 
     map_request = \
-        f"http://static-maps.yandex.ru/1.x/?ll={toponym_coodrinates[0]},{toponym_coodrinates[1]}&spn=0.002,0.002&l=map"
+        f"http://static-maps.yandex.ru/1.x/?ll={toponym_coodrinates[0]},{toponym_coodrinates[1]}&spn=0.005,0.005&l=map&pt={toponym_coodrinates[0]},{toponym_coodrinates[1]},comma"
     response = requests.get(map_request)
 
     if not response:
@@ -251,8 +265,8 @@ def get_photo(sel):
 def main():
     db_session.global_init('db/culture.db')
     port = int(os.environ.get("PORT", 5000))
-    # app.run(port=5000, host='0.0.0.0')
-    serve(app, port=port, host='0.0.0.0')
+    app.run(port=5000, host='0.0.0.0')
+    # serve(app, port=port, host='0.0.0.0')
     # add_all_objects()
 
 
