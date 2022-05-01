@@ -3,7 +3,7 @@
 {% block content %}
 <div class="main">
 <form action="" method="post" enctype="multipart/form-data">
-<h1>Добавление объекта</h1>
+<h1>{{ title }}</h1>
     {{ form.hidden_tag() }}
     <p>
         {{ form.name.label }}<br>

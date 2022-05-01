@@ -1,4 +1,4 @@
-from flask import Flask, render_template, make_response, jsonify, redirect, request
+from flask import Flask, render_template, make_response, jsonify, redirect, request, url_for
 import flask_login
 from flask_login import LoginManager, login_user, logout_user, login_required
 from data import db_session
@@ -102,9 +102,9 @@ def add_object():
     if form.validate_on_submit():
         db_sess = db_session.create_session()
         if db_sess.query(Object).filter(Object.reester_number == form.reester_number.data).first():
-            return render_template('add_object.html', form=form, message='Объект с таким номером уже зарегистрирован')
+            return render_template('add_object.html', form=form, message='Объект с таким номером уже зарегистрирован', title='Добавление объекта')
         if not form.about.data and not request.files['file']:
-            return render_template('add_object.html', form=form, message='Добавьте описание объекта')
+            return render_template('add_object.html', form=form, message='Добавьте описание объекта', title='Добавление объекта')
         text = ''
         if form.about.data:
             text = form.about.data + '\n'
@@ -114,7 +114,7 @@ def add_object():
             file.save(path)
             if not get_text(path):
                 os.remove(path)
-                return render_template('add_object.html', form=form, message='Некорректный файл')
+                return render_template('add_object.html', form=form, message='Некорректный файл', title='Добавление объекта')
             text += get_text(path)
             os.remove(path)
         obj = Object(
@@ -133,7 +133,7 @@ def add_object():
         db_sess.commit()
         return redirect('/')
 
-    return render_template('add_object.html', form=form)
+    return render_template('add_object.html', form=form, title='Добавление объекта')
 
 
 @app.route('/about')
@@ -184,6 +184,86 @@ def get_object(object_id):
                     os.remove('static/photo/obj.png')
         return render_template('object.html', obj=obj, comments=comments, form=form)
     return jsonify({'error': 'object not found'})
+
+
+@app.route('/del_obj/<int:object_id>', methods=['GET', 'POST'])
+def delete_object(object_id):
+    if not flask_login.current_user.is_authenticated or not flask_login.current_user.is_admin:
+        return jsonify({'error': 'access denied'})
+    db_sess = db_session.create_session()
+    obj = db_sess.query(Object).get(object_id)
+    if obj:
+        db_sess.delete(obj)
+        db_sess.commit()
+        return redirect('/')
+    return jsonify({'error': 'object not found'})
+
+
+@app.route('/del_com/<int:comment_id>', methods=['GET', 'POST'])
+def delete_comment(comment_id):
+    db_sess = db_session.create_session()
+    com = db_sess.query(Comment).get(comment_id)
+    if com:
+        if not flask_login.current_user.is_authenticated or not flask_login.current_user.is_admin or flask_login.current_user.id != com.creater_id:
+            return jsonify({'error': 'access denied'})
+        main_page_id = com.obj_id
+        db_sess.delete(com)
+        db_sess.commit()
+        return redirect(f"/{main_page_id}")
+    return jsonify({'error': 'comment not found'})
+
+
+@app.route('/edit_obj/<int:object_id>', methods=['GET', 'POST'])
+def edit_object(object_id):
+    if not flask_login.current_user.is_authenticated or not flask_login.current_user.is_admin:
+        return jsonify({'error': 'access denied'})
+    db_sess = db_session.create_session()
+    obj = db_sess.query(Object).get(object_id)
+    if not obj:
+        return jsonify({'error': 'object not found'})
+    form = AddObject()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        if db_sess.query(Object).filter(Object.reester_number == form.reester_number.data).first() and form.reester_number.data != obj.reester_number:
+            return render_template('add_object.html', form=form, message='Объект с таким номером уже зарегистрирован')
+        if not form.about.data and not request.files['file']:
+            return render_template('add_object.html', form=form, message='Добавьте описание объекта', title='Изменение объекта')
+        text = ''
+        if form.about.data:
+            text = form.about.data + '\n'
+        if request.files['file']:
+            file = request.files['file']
+            path = os.path.join('uploads', file.filename)
+            file.save(path)
+            if not get_text(path):
+                os.remove(path)
+                return render_template('add_object.html', form=form, message='Некорректный файл', title='Изменение объекта')
+            text += get_text(path)
+            os.remove(path)
+        obj.name = form.name.data
+        obj.about = text
+        obj.reester_number = form.reester_number.data
+        obj.region = form.region.data
+        obj.full_address = form.full_address.data
+        obj.category = form.category.data
+        obj.kind = form.kind.data
+        obj.unesco = form.unesco.data
+        obj.is_value = form.is_value.data
+        obj.coords = form.coords.data
+        db_sess.add(obj)
+        db_sess.commit()
+        return redirect(f'/{obj.id}')
+    form.name.data = obj.name
+    form.about.data = obj.about
+    form.reester_number.data = obj.reester_number
+    form.region.data = obj.region
+    form.full_address.data = obj.full_address
+    form.category.data = obj.category
+    form.kind.data = obj.kind
+    form.unesco.data = obj.unesco
+    form.is_value.data = obj.is_value
+    form.coords.data = obj.coords
+    return render_template('add_object.html', form=form, title='Изменение объекта')
 
 
 @app.route('/search', methods=['GET', 'POST'])
