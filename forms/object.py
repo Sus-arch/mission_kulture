@@ -1,11 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField, TextAreaField, RadioField
+from wtforms import StringField, SubmitField, BooleanField, TextAreaField, RadioField, FileField
 from wtforms.validators import DataRequired
 
 
 class AddObject(FlaskForm):
     name = StringField('Название', validators=[DataRequired()])
     about = TextAreaField('Описание')
+    about_file = FileField('Или приложите файл с текстом')
     reester_number = StringField('Номер в реестре', validators=[DataRequired()])
     region = StringField('Регион', validators=[DataRequired()])
     full_address = StringField('Полный адрес')

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, make_response, jsonify, redirect
+from flask import Flask, render_template, make_response, jsonify, redirect, request
 import flask_login
 from flask_login import LoginManager, login_user, logout_user, login_required
 from data import db_session
@@ -17,6 +17,7 @@ import sys
 import requests
 from PIL import Image
 import urllib3
+from utils.file_reader import get_text
 
 
 app = Flask(__name__)
@@ -102,9 +103,23 @@ def add_object():
         db_sess = db_session.create_session()
         if db_sess.query(Object).filter(Object.reester_number == form.reester_number.data).first():
             return render_template('add_object.html', form=form, message='Объект с таким номером уже зарегистрирован')
+        if not form.about.data and not request.files['file']:
+            return render_template('add_object.html', form=form, message='Добавьте описание объекта')
+        text = ''
+        if form.about.data:
+            text = form.about.data + '\n'
+        if request.files['file']:
+            file = request.files['file']
+            path = os.path.join('uploads', file.filename)
+            file.save(path)
+            if not get_text(path):
+                os.remove(path)
+                return render_template('add_object.html', form=form, message='Некорректный файл')
+            text += get_text(path)
+            os.remove(path)
         obj = Object(
             name=form.name.data,
-            about=form.about.data,
+            about=text,
             reester_number=form.reester_number.data,
             region=form.region.data,
             full_address=form.full_address.data,
