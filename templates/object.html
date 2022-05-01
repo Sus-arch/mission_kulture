@@ -2,6 +2,12 @@
 
 {% block content %}
     <div class="main">
+    <div align="right">
+        {% if current_user.is_admin %}
+            <a class="btn btn-primary" href="/edit_obj/{{ obj.id }}">Изменить объект</a>
+            <a class="btn btn-danger" href="/del_obj/{{ obj.id }}">Удалить объект</a>
+        {% endif %}
+    </div>
         <h1>{{ obj.name }} ({{ obj.category }}, {{ obj.kind }})</h1>
         <h2>{{ obj.about }}</h2>
         <p>Номер в реестре - {{ obj.reester_number }}</p>
@@ -14,12 +20,12 @@
         <p>Особо ценный объект</p>
         {% endif %}
         {% if obj.photo %}
-            <img src="static/photo/object.png" alt="здесь должна была быть картинка,
+            <img src="{{ url_for('static', filename='photo/object.png') }}" alt="здесь должна была быть картинка,
                      но не нашлась">
         {% endif %}
         <br>
         {% if obj.coords %}
-            <img src="static/photo/map.png">
+            <img src="{{ url_for('static', filename='photo/map.png') }}">
         {% endif %}
         {% if current_user.is_authenticated %}
         <form action="" method="post">
@@ -37,11 +43,17 @@
         <p hidden>{{ form.obj_id(value=obj.id) }}</p>
         </form>
     {% endif %}
+        <br>
         {% for com in comments %}
         <div class="shadow p-3 mb-5 bg-body rounded">
                 <p>
                     User{{ com.creater_id }}: {{ com.text }}
                 </p>
+                {% if current_user.id == com.creater_id%}
+                <div align="right">
+                    <a class="btn btn-danger" href="/del_com/{{ com.id }}" role="button">Удалить комментарий</a>
+                </div>
+                {% endif %}
         </div>
         <br>
         {% endfor %}
