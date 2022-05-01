@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="main">
+<form action="" method="post" enctype="multipart/form-data">
 <h1>Добавление объекта</h1>
-<form action="" method="post">
     {{ form.hidden_tag() }}
     <p>
         {{ form.name.label }}<br>
@@ -23,6 +23,16 @@
             </p>
         {% endfor %}
     </p>
+    <p>
+            {{ form.about_file.label }}<br>
+            <input type="file" class="form-control-file" id="photo" name="file">
+            {% for error in form.about_file.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+    <br>
     <p>
         {{ form.reester_number.label }}<br>
         {{ form.reester_number(class="form-control") }}<br>
