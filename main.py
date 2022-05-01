@@ -16,12 +16,14 @@ from random import randint
 import sys
 import requests
 from PIL import Image
+import urllib3
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'NJwadok12LMKF3KMlmcd232v_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
+urllib3.disable_warnings()
 
 
 @app.errorhandler(404)

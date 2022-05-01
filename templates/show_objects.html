@@ -1,8 +1,7 @@
 {% extends "base.html" %}
-<link href="static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-<link href="static/css/style.css" rel="stylesheet" type="text/css" media="all" />
-<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
+
 {% block content %}
+    <div class="main">
     {% for item in obj %}
     <div class="shadow-lg p-3 mb-5 bg-body rounded">
         <h3>{{ item.name }}</h3>
@@ -11,4 +10,5 @@
     </div>
     <br>
     {% endfor %}
+    </div>
 {% endblock %}

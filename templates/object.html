@@ -1,9 +1,7 @@
 {% extends "base.html" %}
-<link href="static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-<link href="static/css/style.css" rel="stylesheet" type="text/css" media="all" />
-<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
+
 {% block content %}
-    <div>
+    <div class="main">
         <h1>{{ obj.name }} ({{ obj.category }}, {{ obj.kind }})</h1>
         <h2>{{ obj.about }}</h2>
         <p>Номер в реестре - {{ obj.reester_number }}</p>
@@ -40,11 +38,11 @@
         </form>
     {% endif %}
         {% for com in comments %}
-            <div class="card card-body">
-              <p>
-                  {{ com.text }}
-              </p>
-            </div>
+        <div class="shadow p-3 mb-5 bg-body rounded">
+                <p>
+                    User{{ com.creater_id }}: {{ com.text }}
+                </p>
+        </div>
         <br>
         {% endfor %}
     </div>
