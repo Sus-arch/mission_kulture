@@ -8,11 +8,13 @@
             <a class="btn btn-danger" href="/del_obj/{{ obj.id }}">Удалить объект</a>
         {% endif %}
     </div>
-        <h1>{{ obj.name }} ({{ obj.category }}, {{ obj.kind }})</h1>
+        <h1>{{ obj.name }} ({{ cat }}, {{ kind }})</h1>
         <h2>{{ obj.about }}</h2>
         <p>Номер в реестре - {{ obj.reester_number }}</p>
-        <p>Регион - {{ obj.region}}</p>
+        <p>Регион - {{ obj.region}} ({{ region }})</p>
+        {% if obj.full_address %}
         <p>Адрес - {{ obj.full_address }}</p>
+        {% endif %}
         {% if obj.unesco %}
         <p>Объект находиться под охраной Юнеско</p>
         {% endif %}

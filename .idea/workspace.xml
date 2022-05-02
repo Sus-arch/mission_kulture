@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b861980c-e51c-4276-bcf3-2cea86050560" name="Changes" comment="add upload text file">
+    <list default="true" id="b861980c-e51c-4276-bcf3-2cea86050560" name="Changes" comment="add func deleting comments and objects&#10;add func editing objects">
+      <change afterPath="$PROJECT_DIR$/data/category.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/kind.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/region.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/__all_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/__all_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/objects.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/culture.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/culture.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/object.py" beforeDir="false" afterPath="$PROJECT_DIR$/forms/object.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/photo/map.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/photo/map.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/add_object.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/add_object.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/object.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/object.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/show_objects.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/show_objects.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -314,7 +317,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651422104130</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="add func deleting comments and objects&#10;add func editing objects">
+      <created>1651432464530</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1651432464530</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -364,6 +374,7 @@
     <MESSAGE value="add show photo &#10;bug fix" />
     <MESSAGE value="design bug fix" />
     <MESSAGE value="add upload text file" />
-    <option name="LAST_COMMIT_MESSAGE" value="add upload text file" />
+    <MESSAGE value="add func deleting comments and objects&#10;add func editing objects" />
+    <option name="LAST_COMMIT_MESSAGE" value="add func deleting comments and objects&#10;add func editing objects" />
   </component>
 </project>

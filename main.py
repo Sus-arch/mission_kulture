@@ -7,6 +7,9 @@ from forms.user import RegisterForm, LoginForm
 from forms.object import AddObject, FindObjectForm
 from data.objects import Object
 from data.comments import Comment
+from data.category import Category
+from data.region import Region
+from data.kind import Kind
 from forms.comment import AddCommentForm
 from forms.search import SearchForm
 from waitress import serve
@@ -105,6 +108,9 @@ def add_object():
             return render_template('add_object.html', form=form, message='Объект с таким номером уже зарегистрирован', title='Добавление объекта')
         if not form.about.data and not request.files['file']:
             return render_template('add_object.html', form=form, message='Добавьте описание объекта', title='Добавление объекта')
+        reg = db_sess.query(Region).get(form.region.data)
+        if not reg:
+            return render_template('add_object.html', form=form,  message='Некорректный регион', title='Добавление объекта')
         text = ''
         if form.about.data:
             text = form.about.data + '\n'
@@ -182,7 +188,10 @@ def get_object(object_id):
                     os.remove('static/photo/object.png')
                 if os.path.isfile('static/photo/obj.png'):
                     os.remove('static/photo/obj.png')
-        return render_template('object.html', obj=obj, comments=comments, form=form)
+        reg = db_sess.query(Region).get(obj.region)
+        cat = db_sess.query(Category).get(obj.category)
+        kind = db_sess.query(Kind).get(obj.kind)
+        return render_template('object.html', obj=obj, comments=comments, region=reg.name, cat=cat.name, kind=kind.name, form=form)
     return jsonify({'error': 'object not found'})
 
 
@@ -228,6 +237,9 @@ def edit_object(object_id):
             return render_template('add_object.html', form=form, message='Объект с таким номером уже зарегистрирован')
         if not form.about.data and not request.files['file']:
             return render_template('add_object.html', form=form, message='Добавьте описание объекта', title='Изменение объекта')
+        reg = db_sess.query(Region).get(form.region.data)
+        if not reg:
+            return render_template('add_object.html', form=form,  message='Некорректный регион', title='Изменение объекта')
         text = ''
         if form.about.data:
             text = form.about.data + '\n'
@@ -250,19 +262,21 @@ def edit_object(object_id):
         obj.unesco = form.unesco.data
         obj.is_value = form.is_value.data
         obj.coords = form.coords.data
-        db_sess.add(obj)
+        local_obj = db_sess.merge(obj)
+        db_sess.add(local_obj)
         db_sess.commit()
         return redirect(f'/{obj.id}')
-    form.name.data = obj.name
-    form.about.data = obj.about
-    form.reester_number.data = obj.reester_number
-    form.region.data = obj.region
-    form.full_address.data = obj.full_address
-    form.category.data = obj.category
-    form.kind.data = obj.kind
-    form.unesco.data = obj.unesco
-    form.is_value.data = obj.is_value
-    form.coords.data = obj.coords
+    form.name.default = obj.name
+    form.about.default = obj.about
+    form.reester_number.default = obj.reester_number
+    form.region.default = obj.region
+    form.full_address.default = obj.full_address
+    form.category.default = obj.category
+    form.kind.default = obj.kind
+    form.unesco.default = obj.unesco
+    form.is_value.default = obj.is_value
+    form.coords.default = obj.coords
+    form.process()
     return render_template('add_object.html', form=form, title='Изменение объекта')
 
 
@@ -287,11 +301,34 @@ def add_all_objects():
             data = json.load(file)
             for j in data:
                 name = j['nativeName']
-                region = j['data']['general']['region']['value']
+                region = j['data']['general']['region']
+                reg = db_sess.query(Region).get(region['id'])
+                if not reg:
+                    reg = Region(id=region['id'],
+                                 name=region['value'])
+                    db_sess.add(reg)
+                    db_sess.commit()
+                    
                 reester_number = j['data']['general']['regNumber']
-                category = j['data']['general']['categoryType']['value']
-                kind = j['data']['general']['objectType']['value']
-                about = j['data']['general']['name']
+                category = j['data']['general']['categoryType']
+                cat = db_sess.query(Category).get(category['id'])
+                if not cat:
+                    cat = Category(id=category['id'],
+                                   name=category['value'])
+                    db_sess.add(cat)
+                    db_sess.commit()
+                    
+                kind = j['data']['general']['objectType']
+                k = db_sess.query(Kind).get(kind['id'])
+                if not k:
+                    k = Kind(id=kind['id'],
+                             name=kind['value'])
+                    db_sess.add(k)
+                    db_sess.commit()
+                try:
+                    about = j['data']['general']['createDate']
+                except:
+                    about = ''
                 try:
                     unesco = j['data']['general']['unesco']['value']
                 except:
@@ -322,10 +359,10 @@ def add_all_objects():
                     is_value = 1
 
                 obj = Object(name=name,
-                             region=region,
+                             region=region['id'],
                              reester_number=reester_number,
-                             category=category,
-                             kind=kind,
+                             category=category['id'],
+                             kind=kind['id'],
                              about=about,
                              unesco=unesco,
                              is_value=is_value,
@@ -359,12 +396,33 @@ def get_photo(sel):
         file.write(response.content)
 
 
+def add_coords():
+    db_sess = db_session.create_session()
+    obj = db_sess.query(Object).filter(Object.full_address != '', Object.coords == '').all()
+    for i in obj:
+        try:
+            address = str('+'.join(i.full_address.split(', '))).replace(' ', '+')
+            geocoder_request = f"https://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={address}&format=json"
+            response = requests.get(geocoder_request)
+            if response:
+                json_response = response.json()
+                pos = (json_response['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'])
+                coords = ('[' + str(', '.join(pos.split())) + ']')
+                print(f"{i.id}) {i.name} - {coords}")
+                i.coords = coords
+                db_sess.add(i)
+                db_sess.commit()
+        except Exception as e:
+            print(f"{i.id} --- {e}")
+
+
 def main():
     db_session.global_init('db/culture.db')
     port = int(os.environ.get("PORT", 5000))
     app.run(port=5000, host='0.0.0.0')
     # serve(app, port=port, host='0.0.0.0')
     # add_all_objects()
+    # add_coords()
 
 
 if __name__ == '__main__':

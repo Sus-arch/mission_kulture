@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, BooleanField, TextAreaField, RadioField, FileField
+from wtforms import StringField, SubmitField, BooleanField, TextAreaField, RadioField, FileField, IntegerField
 from wtforms.validators import DataRequired
 
 
@@ -8,16 +8,17 @@ class AddObject(FlaskForm):
     about = TextAreaField('Описание')
     about_file = FileField('Или приложите файл с текстом')
     reester_number = StringField('Номер в реестре', validators=[DataRequired()])
-    region = StringField('Регион', validators=[DataRequired()])
+    region = IntegerField('Регион', validators=[DataRequired()])
     full_address = StringField('Полный адрес')
     category = RadioField('Выберите категорию', choices=[
-        ('Местного (муниципального) значения', 'Местного (муниципального) значения'),
-        ('Федерального значения', 'Федерального значения'),
-        ('Регионального значения', 'Регионального значения')
+        (4, 'Местного (муниципального) значения'),
+        (1, 'Федерального значения'),
+        (2, 'Регионального значения')
     ], validators=[DataRequired()])
     kind = RadioField('Вид объекта', choices=[
-        ('Ансамбль', 'Ансамбль'),
-        ('Памятник', 'Памятник')
+        (2, 'Ансамбль'),
+        (1, 'Памятник'),
+        (3, 'Достопримечательное место')
     ], validators=[DataRequired()])
     unesco = BooleanField('Принадлежность к Юнеско')
     is_value = BooleanField('Особо ценный объект')
