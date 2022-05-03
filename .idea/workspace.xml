@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b861980c-e51c-4276-bcf3-2cea86050560" name="Changes" comment="search update" />
+    <list default="true" id="b861980c-e51c-4276-bcf3-2cea86050560" name="Changes" comment="deploy version" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -333,7 +333,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651587798127</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="deploy version">
+      <created>1651588179316</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1651588179316</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -360,7 +367,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="2" />
     <MESSAGE value="добавлена модель пользователей" />
     <MESSAGE value="авторизация и регистрация пользователей" />
     <MESSAGE value="главная страница" />
@@ -385,6 +391,7 @@
     <MESSAGE value="add func deleting comments and objects&#10;add func editing objects" />
     <MESSAGE value="db update" />
     <MESSAGE value="search update" />
-    <option name="LAST_COMMIT_MESSAGE" value="search update" />
+    <MESSAGE value="deploy version" />
+    <option name="LAST_COMMIT_MESSAGE" value="deploy version" />
   </component>
 </project>
