@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b861980c-e51c-4276-bcf3-2cea86050560" name="Changes" comment="add func deleting comments and objects&#10;add func editing objects">
-      <change afterPath="$PROJECT_DIR$/data/category.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/kind.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/region.py" afterDir="false" />
+    <list default="true" id="b861980c-e51c-4276-bcf3-2cea86050560" name="Changes" comment="db update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/__all_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/__all_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/objects.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/culture.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/culture.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms/object.py" beforeDir="false" afterPath="$PROJECT_DIR$/forms/object.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/search.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/photo/map.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/photo/map.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/object.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/object.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/search.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -324,7 +320,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651432464530</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="db update">
+      <created>1651515788271</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1651515788271</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -375,6 +378,7 @@
     <MESSAGE value="design bug fix" />
     <MESSAGE value="add upload text file" />
     <MESSAGE value="add func deleting comments and objects&#10;add func editing objects" />
-    <option name="LAST_COMMIT_MESSAGE" value="add func deleting comments and objects&#10;add func editing objects" />
+    <MESSAGE value="db update" />
+    <option name="LAST_COMMIT_MESSAGE" value="db update" />
   </component>
 </project>
