@@ -2,6 +2,7 @@
 
 {% block content %}
 <div class="main">
+    <h3 align="right"><a href="/search">Очистить фильтр</a></h3>
 <form action="" method="post">
     {{ form.hidden_tag() }}
     <p>
@@ -13,9 +14,60 @@
             </p>
         {% endfor %}
     </p>
+    <p>
+        {{ form.reester_number.label }}<br>
+        {{ form.reester_number(class="form-control") }}<br>
+        {% for error in form.reester_number.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.region.label }}<br>
+        {{ form.region(class="form-control") }}<br>
+        {% for error in form.region.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {% for subfield in form.category %}
+        <tr>
+            <td>{{ subfield }}</td>
+            <td>{{ subfield.label }}</td>
+        </tr>
+        {% endfor %}
+    </p>
     <br>
+    <p>
+        {% for subfield in form.kind %}
+        <tr>
+            <td>{{ subfield }}</td>
+            <td>{{ subfield.label }}</td>
+        </tr>
+        {% endfor %}
+    </p>
+    <br>
+    <p>{{ form.unesco() }} {{ form.unesco.label }}</p>
+    <p>{{ form.is_value() }} {{ form.is_value.label }}</p>
     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
     <br>
+    <p>{{ message }}</p>
 </form>
+    {% if obj %}
+    <p>Найдено объектов: {{ obj|count }}</p>
+    {% for item in obj %}
+    <div class="shadow-lg p-3 mb-5 bg-body rounded">
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.about }}</p>
+        <a href="/{{ item.id }}">Ссылка на памятник</a>
+    </div>
+    <br>
+    {% endfor %}
+    {% else %}
+    <p>Ничего не найдено</p>
+    {% endif %}
 </div>
 {% endblock %}

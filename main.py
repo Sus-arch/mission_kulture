@@ -11,7 +11,6 @@ from data.category import Category
 from data.region import Region
 from data.kind import Kind
 from forms.comment import AddCommentForm
-from forms.search import SearchForm
 from waitress import serve
 import os
 import json
@@ -152,8 +151,7 @@ def show_objects():
     db_sess = db_session.create_session()
     objects = db_sess.query(Object).all()
     obj = [objects[randint(1, len(objects))] for _ in range(10)]
-    form = SearchForm()
-    return render_template('show_objects.html', obj=obj, form=form)
+    return render_template('show_objects.html', obj=obj)
 
 
 @app.route('/<int:object_id>', methods=['GET', 'POST'])
@@ -285,10 +283,217 @@ def search():
     form = FindObjectForm()
     db_sess = db_session.create_session()
     if form.validate_on_submit():
-        obj = db_sess.query(Object).filter(form.name.data == Object.name).first()
-        if not obj:
-            return render_template('search.html', form=form, message='Ничего не найдено')
-        return redirect(f'/{obj.id}')
+        if bool(form.name.data) and bool(form.reester_number.data) and form.region.data\
+                and form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.reester_number == form.reester_number.data,
+                                               Object.region == form.region.data,
+                                               Object.category == form.category.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and bool(form.reester_number.data) and form.region.data\
+                and form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.reester_number == form.reester_number.data,
+                                               Object.region == form.region.data,
+                                               Object.category == form.category.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and not bool(form.reester_number.data) and form.region.data\
+                and form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.region == form.region.data,
+                                               Object.category == form.category.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and not bool(form.reester_number.data) and not form.region.data\
+                and form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.category == form.category.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and not bool(form.reester_number.data) and not form.region.data\
+                and not form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and not bool(form.reester_number.data) and not form.region.data\
+                and not form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and not bool(form.reester_number.data) and not form.region.data\
+                and form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.category == form.category.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and not bool(form.reester_number.data) and form.region.data\
+                and not form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.region == form.region.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and bool(form.reester_number.data) and not form.region.data\
+                and not form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.reester_number == form.reester_number.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and not bool(form.reester_number.data) and not form.region.data\
+                and not form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and not bool(form.reester_number.data) and form.region.data\
+                and not form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.region == form.region.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and not bool(form.reester_number.data) and form.region.data\
+                and form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.region == form.region.data,
+                                               Object.category == form.category.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and bool(form.reester_number.data) and not form.region.data\
+                and not form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.reester_number == form.reester_number.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and bool(form.reester_number.data) and not form.region.data\
+                and form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.reester_number == form.reester_number.data,
+                                               Object.category == form.category.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and bool(form.reester_number.data) and not form.region.data\
+                and form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.reester_number == form.reester_number.data,
+                                               Object.category == form.category.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and bool(form.reester_number.data) and form.region.data\
+                and not form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.reester_number == form.reester_number.data,
+                                               Object.region == form.region.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and bool(form.reester_number.data) and form.region.data\
+                and not form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.reester_number == form.reester_number.data,
+                                               Object.region == form.region.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif not bool(form.name.data) and bool(form.reester_number.data) and form.region.data\
+                and form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.reester_number == form.reester_number.data,
+                                               Object.region == form.region.data,
+                                               Object.category == form.category.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and not bool(form.reester_number.data) and not form.region.data\
+                and not form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and not bool(form.reester_number.data) and not form.region.data\
+                and form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.category == form.category.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and not bool(form.reester_number.data) and not form.region.data\
+                and form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.category == form.category.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and not bool(form.reester_number.data) and form.region.data\
+                and not form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.region == form.region.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and not bool(form.reester_number.data) and form.region.data\
+                and not form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.region == form.region.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and not bool(form.reester_number.data) and form.region.data\
+                and form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.region == form.region.data,
+                                               Object.category == form.category.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and not bool(form.reester_number.data) and form.region.data\
+                and form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.region == form.region.data,
+                                               Object.category == form.category.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and bool(form.reester_number.data) and not form.region.data\
+                and not form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.reester_number == form.reester_number.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and bool(form.reester_number.data) and not form.region.data\
+                and not form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.reester_number == form.reester_number.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and bool(form.reester_number.data) and not form.region.data\
+                and form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.reester_number == form.reester_number.data,
+                                               Object.category == form.category.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and bool(form.reester_number.data) and not form.region.data\
+                and form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.reester_number == form.reester_number.data,
+                                               Object.category == form.category.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and bool(form.reester_number.data) and form.region.data\
+                and not form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.reester_number == form.reester_number.data,
+                                               Object.region == form.region.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and bool(form.reester_number.data) and form.region.data\
+                and not form.category.data and form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.reester_number == form.reester_number.data,
+                                               Object.region == form.region.data,
+                                               Object.kind == form.kind.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        elif bool(form.name.data) and bool(form.reester_number.data) and form.region.data\
+                and form.category.data and not form.kind.data:
+            obj = db_sess.query(Object).filter(Object.name.like(f"%{form.name.data}%"),
+                                               Object.reester_number == form.reester_number.data,
+                                               Object.region == form.region.data,
+                                               Object.category == form.category.data,
+                                               Object.unesco == form.unesco.data,
+                                               Object.is_value == form.is_value.data).all()
+        else:
+            obj = None
+        return render_template('search.html', form=form, obj=obj)
     return render_template('search.html', form=form)
   
 
