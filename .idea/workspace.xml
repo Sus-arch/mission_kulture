@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b861980c-e51c-4276-bcf3-2cea86050560" name="Changes" comment="deploy version" />
+    <list default="true" id="b861980c-e51c-4276-bcf3-2cea86050560" name="Changes" comment="deploy version 2">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -340,7 +343,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651588179316</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="deploy version 2">
+      <created>1651588457020</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1651588457020</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -367,7 +377,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="добавлена модель пользователей" />
     <MESSAGE value="авторизация и регистрация пользователей" />
     <MESSAGE value="главная страница" />
     <MESSAGE value="обработчик форм&#10;форма для добавления объектов" />
@@ -392,6 +401,7 @@
     <MESSAGE value="db update" />
     <MESSAGE value="search update" />
     <MESSAGE value="deploy version" />
-    <option name="LAST_COMMIT_MESSAGE" value="deploy version" />
+    <MESSAGE value="deploy version 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="deploy version 2" />
   </component>
 </project>
