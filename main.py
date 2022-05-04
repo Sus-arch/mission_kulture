@@ -1,4 +1,4 @@
-from flask import Flask, render_template, make_response, jsonify, redirect, request, url_for
+from flask import Flask, render_template, make_response, jsonify, redirect, request, url_for, session
 import flask_login
 from flask_login import LoginManager, login_user, logout_user, login_required
 from data import db_session
@@ -20,9 +20,11 @@ import requests
 from PIL import Image
 import urllib3
 from utils.file_reader import get_text
+from flask_caching import Cache
 
 
 app = Flask(__name__)
+cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache'})
 app.config['SECRET_KEY'] = 'NJwadok12LMKF3KMlmcd232v_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -493,9 +495,16 @@ def search():
                                                Object.is_value == form.is_value.data).all()
         else:
             obj = None
-        return render_template('search.html', form=form, obj=obj)
+        cache.set('obj', obj)
+        return redirect('/objects')
     return render_template('search.html', form=form)
-  
+
+
+@app.route('/objects', methods=['GET', 'POST'])
+def objects():
+    obj = cache.get('obj')
+    return render_template('objects.html', obj=obj)
+
 
 def add_all_objects():
     db_sess = db_session.create_session()

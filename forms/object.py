@@ -41,3 +41,6 @@ class FindObjectForm(FlaskForm):
     unesco = BooleanField('Принадлежность к Юнеско', validators=[Optional()])
     is_value = BooleanField('Особо ценный объект', validators=[Optional()])
     submit = SubmitField('Поиск')
+
+    def clear(self):
+        self.region.data = None

@@ -56,18 +56,5 @@
     <br>
     <p>{{ message }}</p>
 </form>
-    {% if obj %}
-    <p>Найдено объектов: {{ obj|count }}</p>
-    {% for item in obj %}
-    <div class="shadow-lg p-3 mb-5 bg-body rounded">
-        <h3>{{ item.name }}</h3>
-        <p>{{ item.about }}</p>
-        <a href="/{{ item.id }}">Ссылка на памятник</a>
-    </div>
-    <br>
-    {% endfor %}
-    {% else %}
-    <p>Ничего не найдено</p>
-    {% endif %}
 </div>
 {% endblock %}
